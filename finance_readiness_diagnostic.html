@@ -1,0 +1,2046 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Transformation Readiness Diagnostic</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   IBM Carbon-influenced design system
+   Primary palette: White bg / IBM Blue / IBM Cool Gray / Teal
+   ============================================================ */
+:root {
+  /* IBM Core */
+  --ibm-blue-10: #edf5ff;
+  --ibm-blue-20: #d0e2ff;
+  --ibm-blue-30: #a6c8ff;
+  --ibm-blue-40: #78a9ff;
+  --ibm-blue-50: #4589ff;
+  --ibm-blue-60: #0f62fe;
+  --ibm-blue-70: #0043ce;
+  --ibm-blue-80: #002d9c;
+  --ibm-blue-90: #001d6c;
+  --ibm-blue-100: #001141;
+
+  --ibm-teal-10: #d9fbfb;
+  --ibm-teal-20: #9ef0f0;
+  --ibm-teal-40: #3ddbd9;
+  --ibm-teal-50: #08bdba;
+  --ibm-teal-60: #009d9a;
+  --ibm-teal-70: #007d79;
+
+  --ibm-green-10: #defbe6;
+  --ibm-green-40: #42be65;
+  --ibm-green-50: #24a148;
+  --ibm-green-60: #198038;
+
+  --ibm-red-10: #fff1f1;
+  --ibm-red-40: #ff8389;
+  --ibm-red-50: #fa4d56;
+  --ibm-red-60: #da1e28;
+
+  --ibm-orange-10: #fff2e8;
+  --ibm-orange-40: #ff832b;
+  --ibm-orange-60: #ba4e00;
+
+  --ibm-yellow-10: #fcf4d6;
+  --ibm-yellow-30: #f1c21b;
+  --ibm-yellow-40: #d2a106;
+
+  --ibm-purple-10: #f6f2ff;
+  --ibm-purple-50: #8a3ffc;
+  --ibm-purple-60: #6929c4;
+
+  /* Grays */
+  --ibm-gray-10: #f4f4f4;
+  --ibm-gray-20: #e0e0e0;
+  --ibm-gray-30: #c6c6c6;
+  --ibm-gray-40: #a8a8a8;
+  --ibm-gray-50: #8d8d8d;
+  --ibm-gray-60: #6f6f6f;
+  --ibm-gray-70: #525252;
+  --ibm-gray-80: #393939;
+  --ibm-gray-90: #262626;
+  --ibm-gray-100: #161616;
+
+  /* Semantic aliases */
+  --bg: #ffffff;
+  --bg-subtle: #f4f4f4;
+  --bg-hover: #e8e8e8;
+  --surface: #ffffff;
+  --surface-overlay: #f4f4f4;
+  --border: #e0e0e0;
+  --border-strong: #c6c6c6;
+  --border-subtle: #f4f4f4;
+
+  --text-primary: #161616;
+  --text-secondary: #525252;
+  --text-placeholder: #a8a8a8;
+  --text-on-color: #ffffff;
+  --text-disabled: #c6c6c6;
+
+  --interactive: #0f62fe;
+  --interactive-hover: #0043ce;
+  --interactive-active: #002d9c;
+  --interactive-light: #d0e2ff;
+
+  --accent-teal: #009d9a;
+  --accent-teal-light: #d9fbfb;
+  --accent-teal-hover: #007d79;
+
+  --status-danger: #da1e28;
+  --status-danger-bg: #fff1f1;
+  --status-warning: #f1c21b;
+  --status-warning-bg: #fcf4d6;
+  --status-success: #198038;
+  --status-success-bg: #defbe6;
+  --status-info: #0f62fe;
+  --status-info-bg: #edf5ff;
+
+  --font-sans: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-serif: 'IBM Plex Serif', serif;
+
+  --radius-sm: 2px;
+  --radius: 4px;
+  --radius-lg: 8px;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow: 0 2px 8px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.06);
+  --shadow-lg: 0 8px 24px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
+
+  --transition: all 0.15s ease;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+  min-height: 100vh;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- NAV ---- */
+.nav {
+  height: 48px;
+  background: var(--ibm-gray-100);
+  display: flex;
+  align-items: center;
+  padding: 0 0 0 16px;
+  position: sticky;
+  top: 0;
+  z-index: 200;
+  border-bottom: 1px solid var(--ibm-gray-80);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 48px;
+  padding: 0 16px 0 0;
+  border-right: 1px solid var(--ibm-gray-80);
+  margin-right: 16px;
+}
+
+.nav-logo-mark {
+  width: 32px;
+  height: 32px;
+  background: var(--ibm-blue-60);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.nav-logo-mark svg { fill: white; }
+
+.nav-product {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 14px;
+  color: #ffffff;
+  letter-spacing: 0.01em;
+}
+
+.nav-product span {
+  font-weight: 300;
+  color: var(--ibm-gray-30);
+}
+
+.nav-spacer { flex: 1; }
+
+.nav-session-pill {
+  height: 48px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--ibm-gray-30);
+  font-family: var(--font-sans);
+  border-left: 1px solid var(--ibm-gray-80);
+}
+
+.live-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ibm-teal-40);
+  animation: blink 2s ease infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+/* ---- HEADER BAR ---- */
+.header-bar {
+  background: var(--ibm-blue-60);
+  padding: 24px 32px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.header-title {
+  font-family: var(--font-serif);
+  font-size: 26px;
+  font-weight: 300;
+  color: #ffffff;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.header-title strong {
+  font-weight: 600;
+  display: block;
+}
+
+.header-meta {
+  display: flex;
+  gap: 24px;
+  align-items: flex-end;
+}
+
+.header-stat {
+  text-align: right;
+}
+
+.header-stat-num {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--ibm-blue-30);
+  line-height: 1;
+}
+
+.header-stat-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ---- TAB BAR ---- */
+.tab-bar {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  padding: 0;
+  position: sticky;
+  top: 48px;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.tab {
+  padding: 0 20px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: var(--transition);
+  white-space: nowrap;
+  position: relative;
+}
+
+.tab:hover { color: var(--text-primary); background: var(--ibm-gray-10); }
+
+.tab.active {
+  color: var(--ibm-blue-60);
+  border-bottom-color: var(--ibm-blue-60);
+  font-weight: 600;
+  background: var(--ibm-blue-10);
+}
+
+.tab-icon { font-size: 13px; opacity: 0.7; }
+
+.tab-badge {
+  background: var(--ibm-red-50);
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 0 5px;
+  border-radius: 10px;
+  min-width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  line-height: 1;
+}
+
+/* ---- MAIN ---- */
+.main { padding: 0; }
+
+.panel { display: none; }
+.panel.active { display: block; animation: fadeUp 0.2s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+
+/* ---- CONTENT AREA ---- */
+.content { padding: 32px; max-width: 1400px; }
+
+/* ---- PAGE TITLE ---- */
+.page-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.page-title {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: var(--text-primary);
+}
+
+.page-subtitle {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* ---- SETUP SCREEN ---- */
+.setup-hero {
+  background: linear-gradient(105deg, var(--ibm-blue-90) 0%, var(--ibm-blue-70) 60%, var(--ibm-teal-70) 100%);
+  padding: 36px 40px;
+  margin-bottom: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.setup-hero::before {
+  content: '';
+  position: absolute;
+  right: -60px; top: -60px;
+  width: 320px; height: 320px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.04);
+  pointer-events: none;
+}
+
+.setup-hero::after {
+  content: '';
+  position: absolute;
+  right: 120px; bottom: -80px;
+  width: 200px; height: 200px;
+  border-radius: 50%;
+  background: rgba(61,219,217,0.08);
+  pointer-events: none;
+}
+
+.setup-hero h1 {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 300;
+  color: #ffffff;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.setup-hero h1 strong { font-weight: 600; }
+
+.setup-hero p { font-size: 13px; color: rgba(255,255,255,0.7); max-width: 500px; line-height: 1.6; margin-bottom: 20px; }
+
+.hero-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.hero-chip {
+  padding: 4px 12px;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  font-size: 11px;
+  color: rgba(255,255,255,0.85);
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.setup-form {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-top: none;
+}
+
+.setup-form-inner { padding: 32px 40px; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.form-group { border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); padding: 20px 24px; }
+.form-group.full { grid-column: 1/-1; border-right: none; }
+.form-group:nth-child(even) { border-right: none; }
+
+.form-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ibm-blue-70);
+  margin-bottom: 8px;
+  font-family: var(--font-sans);
+  display: block;
+}
+
+.form-input {
+  width: 100%;
+  background: var(--ibm-gray-10);
+  border: none;
+  border-bottom: 2px solid var(--border-strong);
+  padding: 10px 12px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-primary);
+  outline: none;
+  transition: var(--transition);
+}
+
+.form-input:focus { border-bottom-color: var(--ibm-blue-60); background: var(--ibm-blue-10); }
+.form-input::placeholder { color: var(--text-placeholder); }
+
+.sf-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 10px; }
+
+.sf-chip {
+  background: #fff;
+  padding: 14px 8px;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.03em;
+}
+
+.sf-chip:hover { background: var(--ibm-blue-10); color: var(--ibm-blue-60); }
+.sf-chip.selected {
+  background: var(--ibm-blue-60);
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.setup-actions {
+  padding: 20px 40px;
+  background: var(--ibm-gray-10);
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* ---- BUTTONS ---- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 20px;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition);
+  letter-spacing: 0.01em;
+}
+
+.btn-primary {
+  background: var(--ibm-blue-60);
+  color: #ffffff;
+}
+.btn-primary:hover { background: var(--ibm-blue-70); }
+.btn-primary:active { background: var(--ibm-blue-80); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--ibm-blue-60);
+  border: 1px solid var(--ibm-blue-60);
+}
+.btn-secondary:hover { background: var(--ibm-blue-10); }
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+}
+.btn-ghost:hover { background: var(--ibm-gray-10); color: var(--text-primary); }
+
+.btn-danger {
+  background: transparent;
+  color: var(--status-danger);
+  border: 1px solid rgba(218,30,40,0.3);
+}
+.btn-danger:hover { background: var(--status-danger-bg); }
+
+.btn-sm { padding: 7px 14px; font-size: 12px; }
+
+/* ---- WORKSHOP LAYOUT ---- */
+.workshop-grid { display: grid; grid-template-columns: 224px 1fr; min-height: calc(100vh - 140px); }
+
+.sf-sidebar {
+  background: #ffffff;
+  border-right: 1px solid var(--border);
+  padding: 0;
+  position: sticky;
+  top: 92px;
+  height: calc(100vh - 92px);
+  overflow-y: auto;
+}
+
+.sidebar-header {
+  padding: 16px 16px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ibm-blue-70);
+}
+
+.sf-nav-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  border-bottom: 1px solid var(--border-subtle);
+  border-left: 3px solid transparent;
+}
+
+.sf-nav-item:hover { background: var(--ibm-gray-10); }
+.sf-nav-item.active { background: var(--ibm-blue-10); border-left-color: var(--ibm-blue-60); }
+
+.sf-nav-label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.sf-nav-item.active .sf-nav-label { color: var(--ibm-blue-60); font-weight: 600; }
+
+.sf-status-pill {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 7px;
+}
+
+.sf-status-pill.complete { background: var(--ibm-green-10); color: var(--ibm-green-60); }
+.sf-status-pill.partial { background: var(--ibm-yellow-10); color: var(--ibm-yellow-40); }
+.sf-status-pill.empty { background: var(--ibm-gray-10); color: var(--text-placeholder); }
+
+.sidebar-progress {
+  padding: 16px;
+  border-top: 1px solid var(--border);
+  margin-top: auto;
+  position: sticky;
+  bottom: 0;
+  background: #fff;
+}
+
+.progress-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.progress-track {
+  height: 3px;
+  background: var(--ibm-gray-20);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--ibm-blue-60);
+  transition: width 0.4s ease;
+}
+
+/* ---- QUESTIONS ---- */
+.questions-pane { background: var(--bg-subtle); }
+
+.sf-pane-header {
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  padding: 18px 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sf-pane-name {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ibm-blue-70);
+  letter-spacing: 0.02em;
+}
+
+.sf-pane-sub { font-size: 12px; color: var(--text-secondary); }
+
+.questions-body { padding: 20px 28px; display: flex; flex-direction: column; gap: 16px; }
+
+.dimension-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.dim-header {
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.dim-stripe { width: 4px; height: 36px; flex-shrink: 0; }
+.dim-icon { font-size: 16px; }
+.dim-title { font-size: 13px; font-weight: 600; color: var(--text-primary); flex: 1; }
+.dim-subtitle { font-size: 11px; color: var(--text-secondary); }
+
+.dim-score-tag {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+}
+
+.question-row {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.question-row:last-child { border-bottom: none; }
+
+.q-header { display: flex; gap: 12px; margin-bottom: 14px; }
+
+.q-idx {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ibm-blue-40);
+  padding-top: 1px;
+  min-width: 22px;
+}
+
+.q-text {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-primary);
+  line-height: 1.5;
+  flex: 1;
+}
+
+.q-helper {
+  margin-top: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-style: italic;
+  padding-left: 34px;
+  line-height: 1.5;
+}
+
+/* Rating */
+.rating-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 12px; }
+
+.score-btn {
+  border: 1px solid var(--border-strong);
+  background: var(--ibm-gray-10);
+  padding: 10px 6px;
+  cursor: pointer;
+  transition: var(--transition);
+  text-align: center;
+}
+
+.score-btn:hover { border-color: var(--ibm-blue-40); background: var(--ibm-blue-10); }
+
+.score-num {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ibm-gray-60);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.score-label {
+  font-size: 10px;
+  color: var(--text-placeholder);
+  line-height: 1.3;
+}
+
+/* Selected states */
+.score-btn[data-score="1"].sel { border-color: var(--ibm-red-60); background: var(--ibm-red-10); }
+.score-btn[data-score="1"].sel .score-num { color: var(--ibm-red-60); }
+.score-btn[data-score="1"].sel .score-label { color: var(--ibm-red-50); }
+
+.score-btn[data-score="2"].sel { border-color: var(--ibm-orange-60); background: var(--ibm-orange-10); }
+.score-btn[data-score="2"].sel .score-num { color: var(--ibm-orange-60); }
+.score-btn[data-score="2"].sel .score-label { color: var(--ibm-orange-40); }
+
+.score-btn[data-score="3"].sel { border-color: var(--ibm-yellow-40); background: var(--ibm-yellow-10); }
+.score-btn[data-score="3"].sel .score-num { color: var(--ibm-yellow-40); }
+.score-btn[data-score="3"].sel .score-label { color: var(--ibm-yellow-40); }
+
+.score-btn[data-score="4"].sel { border-color: var(--ibm-teal-60); background: var(--ibm-teal-10); }
+.score-btn[data-score="4"].sel .score-num { color: var(--ibm-teal-60); }
+.score-btn[data-score="4"].sel .score-label { color: var(--ibm-teal-60); }
+
+.score-btn[data-score="5"].sel { border-color: var(--ibm-green-60); background: var(--ibm-green-10); }
+.score-btn[data-score="5"].sel .score-num { color: var(--ibm-green-60); }
+.score-btn[data-score="5"].sel .score-label { color: var(--ibm-green-50); }
+
+/* Inline recommendation */
+.inline-rec {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  border-left: 3px solid;
+}
+
+.inline-rec.High { border-color: var(--ibm-red-60); background: var(--ibm-red-10); }
+.inline-rec.Medium { border-color: var(--ibm-orange-40); background: var(--ibm-orange-10); }
+
+.rec-sev-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.inline-rec.High .rec-sev-label { color: var(--ibm-red-60); }
+.inline-rec.Medium .rec-sev-label { color: var(--ibm-orange-60); }
+
+.rec-body-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 6px; }
+
+.rec-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+.rec-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 2px 8px;
+  background: rgba(0,0,0,0.06);
+  color: var(--text-secondary);
+}
+
+.comment-box {
+  width: 100%;
+  background: var(--ibm-gray-10);
+  border: none;
+  border-bottom: 1px solid var(--border-strong);
+  padding: 8px 10px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--text-secondary);
+  resize: none;
+  outline: none;
+  transition: var(--transition);
+}
+
+.comment-box:focus { border-bottom-color: var(--ibm-blue-60); background: var(--ibm-blue-10); }
+.comment-box::placeholder { color: var(--text-placeholder); }
+
+/* ---- DASHBOARD / KPIs ---- */
+.kpi-row { display: grid; gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 24px; }
+.kpi-row-6 { grid-template-columns: repeat(6, 1fr); }
+.kpi-row-5 { grid-template-columns: repeat(5, 1fr); }
+
+.kpi-tile {
+  background: #ffffff;
+  padding: 20px 22px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-accent-bar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+}
+
+.kpi-tile-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.kpi-tile-value {
+  font-family: var(--font-mono);
+  font-size: 30px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 5px;
+}
+
+.kpi-tile-sub { font-size: 11px; color: var(--text-secondary); }
+
+.kpi-band-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 2px 8px;
+  margin-top: 8px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+.band-critical { color: var(--ibm-red-60); background: var(--ibm-red-10); }
+.band-priority { color: var(--ibm-orange-60); background: var(--ibm-orange-10); }
+.band-strengthen { color: var(--ibm-yellow-40); background: var(--ibm-yellow-10); }
+.band-sustain { color: var(--ibm-green-60); background: var(--ibm-green-10); }
+
+/* Heatmap */
+.card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+
+.card-header {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card-header-title {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ibm-blue-70);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-body { padding: 20px; }
+
+.heatmap-table { width: 100%; border-collapse: collapse; }
+.heatmap-table th {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  padding: 8px 10px;
+  text-align: center;
+  border-bottom: 2px solid var(--ibm-blue-60);
+  background: var(--ibm-blue-10);
+}
+
+.heatmap-table th:first-child { text-align: left; }
+
+.heatmap-table td {
+  padding: 8px 8px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 13px;
+}
+
+.heatmap-table td:first-child { text-align: left; font-size: 12px; color: var(--text-secondary); padding-left: 4px; }
+
+.heatmap-table tr:last-child td { border-bottom: none; border-top: 2px solid var(--border); font-weight: 700; }
+
+.hm-cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 28px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.hm-critical { background: var(--ibm-red-10); color: var(--ibm-red-60); }
+.hm-priority { background: var(--ibm-orange-10); color: var(--ibm-orange-60); }
+.hm-strengthen { background: var(--ibm-yellow-10); color: var(--ibm-yellow-40); }
+.hm-sustain { background: var(--ibm-green-10); color: var(--ibm-green-60); }
+.hm-empty { background: var(--ibm-gray-10); color: var(--text-placeholder); }
+
+/* Bar chart */
+.bar-list { display: flex; flex-direction: column; gap: 8px; }
+
+.bar-row { display: flex; align-items: center; gap: 12px; }
+
+.bar-row-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  width: 160px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.bar-track {
+  flex: 1;
+  height: 22px;
+  background: var(--ibm-gray-10);
+  position: relative;
+}
+
+.bar-fill {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  color: #ffffff;
+}
+
+.bar-critical { background: var(--ibm-red-60); }
+.bar-priority { background: var(--ibm-orange-40); }
+.bar-strengthen { background: var(--ibm-yellow-30); color: var(--ibm-gray-100); }
+.bar-sustain { background: var(--ibm-green-50); }
+.bar-neutral { background: var(--ibm-blue-60); }
+
+/* Insight cards */
+.insight-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+
+.insight-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.insight-card-head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.insight-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.insight-item:last-child { border-bottom: none; }
+
+.insight-rank {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 700;
+  width: 28px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.insight-q { flex: 1; font-size: 12px; color: var(--text-primary); line-height: 1.4; }
+.insight-q-dim { font-size: 11px; color: var(--text-secondary); margin-top: 2px; }
+
+.insight-score {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* Recommendations panel */
+.rec-filter-bar { display: flex; gap: 0; margin-bottom: 20px; border: 1px solid var(--border); width: fit-content; }
+
+.rec-filter-btn {
+  padding: 8px 18px;
+  font-size: 12px;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  border: none;
+  border-right: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--text-secondary);
+  transition: var(--transition);
+}
+
+.rec-filter-btn:last-child { border-right: none; }
+.rec-filter-btn:hover { background: var(--ibm-blue-10); color: var(--ibm-blue-60); }
+.rec-filter-btn.active { background: var(--ibm-blue-60); color: #ffffff; font-weight: 600; }
+
+.rec-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+.rec-block {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.rec-block-head {
+  padding: 12px 16px;
+  background: var(--ibm-gray-10);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.rec-block-title {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ibm-blue-70);
+}
+
+.rec-count { font-size: 11px; color: var(--text-secondary); }
+
+.rec-item {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  gap: 10px;
+}
+
+.rec-item:last-child { border-bottom: none; }
+
+.rec-dot {
+  width: 6px; height: 6px;
+  flex-shrink: 0;
+  margin-top: 6px;
+}
+
+.rec-dot.High { background: var(--ibm-red-60); }
+.rec-dot.Critical { background: var(--ibm-red-60); }
+.rec-dot.Medium { background: var(--ibm-orange-40); }
+.rec-dot.Priority { background: var(--ibm-orange-40); }
+.rec-dot.Low { background: var(--ibm-yellow-30); }
+.rec-dot.Strengthen { background: var(--ibm-yellow-30); }
+.rec-dot.Sustain { background: var(--ibm-green-50); }
+
+.rec-item-body { flex: 1; }
+.rec-q-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 3px; font-style: italic; }
+.rec-text { font-size: 12px; color: var(--text-primary); line-height: 1.5; margin-bottom: 5px; }
+
+.rec-footer { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+
+.tag-sev {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 6px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tag-sev.High, .tag-sev.Critical { background: var(--ibm-red-10); color: var(--ibm-red-60); }
+.tag-sev.Medium, .tag-sev.Priority { background: var(--ibm-orange-10); color: var(--ibm-orange-60); }
+.tag-sev.Low, .tag-sev.Strengthen { background: var(--ibm-yellow-10); color: var(--ibm-yellow-40); }
+.tag-sev.Sustain { background: var(--ibm-green-10); color: var(--ibm-green-60); }
+
+.tag-time {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 2px 6px;
+}
+
+.tag-time.near { background: var(--ibm-red-10); color: var(--ibm-red-60); }
+.tag-time.medium { background: var(--ibm-orange-10); color: var(--ibm-orange-60); }
+.tag-time.sustain { background: var(--ibm-green-10); color: var(--ibm-green-60); }
+
+.tag-owner {
+  font-size: 9px;
+  padding: 2px 6px;
+  background: var(--ibm-gray-10);
+  color: var(--text-secondary);
+}
+
+/* Dim-level rec panels */
+.dim-rec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+
+.dim-rec-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  padding: 14px 16px;
+  border-top: 3px solid;
+}
+
+.dim-rec-card-title { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+.dim-rec-card-fn { font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); margin-bottom: 8px; }
+.dim-rec-card-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 8px; }
+
+/* Export */
+.export-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); margin-bottom: 24px; }
+
+.export-tile {
+  background: #ffffff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: var(--transition);
+  cursor: default;
+}
+
+.export-tile:hover { background: var(--ibm-blue-10); }
+.export-tile-icon { font-size: 24px; }
+.export-tile-name { font-weight: 600; font-size: 14px; color: var(--text-primary); }
+.export-tile-desc { font-size: 12px; color: var(--text-secondary); line-height: 1.5; flex: 1; }
+
+/* Legend */
+.legend-bar {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--border);
+  margin-bottom: 20px;
+  width: fit-content;
+}
+
+.legend-item {
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  border-right: 1px solid var(--border);
+}
+
+.legend-item:last-child { border-right: none; }
+
+.legend-dot { width: 10px; height: 10px; }
+
+/* Empty state */
+.empty-state {
+  padding: 60px 24px;
+  text-align: center;
+  background: #ffffff;
+  border: 1px solid var(--border);
+}
+
+.empty-icon { font-size: 36px; margin-bottom: 12px; }
+.empty-title { font-size: 16px; font-weight: 600; color: var(--text-secondary); margin-bottom: 6px; }
+.empty-sub { font-size: 13px; color: var(--text-placeholder); }
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(16px);
+  background: var(--ibm-gray-90);
+  color: #ffffff;
+  padding: 12px 22px;
+  font-size: 13px;
+  font-family: var(--font-sans);
+  opacity: 0;
+  transition: all 0.25s ease;
+  z-index: 9999;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--ibm-gray-10); }
+::-webkit-scrollbar-thumb { background: var(--ibm-gray-30); }
+::-webkit-scrollbar-thumb:hover { background: var(--ibm-gray-50); }
+
+/* Typography helpers */
+.mono { font-family: var(--font-mono); }
+.text-blue { color: var(--ibm-blue-60); }
+.text-dim { color: var(--text-secondary); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="nav-logo-mark">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M0 0h4v4H0zm6 0h4v4H6zm6 0h4v4h-4zM0 6h4v4H0zm6 6h4v4H6zm6-6h4v4h-4zm0 6h4v4h-4z"/></svg>
+    </div>
+    <span class="nav-product">FinReady <span>/ Transformation Readiness Diagnostic</span></span>
+  </div>
+  <div class="nav-spacer"></div>
+  <div class="nav-session-pill" id="navSession" style="display:none">
+    <div class="live-dot"></div>
+    <span id="navSessionLabel" style="font-size:12px;color:#fff"></span>
+  </div>
+</nav>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <div class="tab active" data-tab="setup"><span class="tab-icon">⊞</span> Session Setup</div>
+  <div class="tab" data-tab="workshop"><span class="tab-icon">◎</span> Workshop</div>
+  <div class="tab" data-tab="sf-dash"><span class="tab-icon">◈</span> Function View</div>
+  <div class="tab" data-tab="cumulative"><span class="tab-icon">⊗</span> Cumulative View</div>
+  <div class="tab" data-tab="recommendations"><span class="tab-icon">✦</span> Recommendations <span class="tab-badge" id="recBadge" style="display:none">0</span></div>
+  <div class="tab" data-tab="export"><span class="tab-icon">↓</span> Export</div>
+</div>
+
+<div class="main">
+
+<!-- ========== SETUP ========== -->
+<div class="panel active" id="panel-setup">
+  <div class="setup-hero">
+    <h1>Finance Transformation<br><strong>Change Readiness Diagnostic</strong></h1>
+    <p>Facilitate structured readiness assessments across Finance functions. Capture scores, generate recommendations automatically, and view function-level and cumulative insights.</p>
+    <div class="hero-chips">
+      <span class="hero-chip">7 Finance Functions</span>
+      <span class="hero-chip">5 Readiness Dimensions</span>
+      <span class="hero-chip">15 Questions</span>
+      <span class="hero-chip">Auto Recommendations</span>
+      <span class="hero-chip">Session Persistence</span>
+    </div>
+  </div>
+  <div class="setup-form">
+    <div class="setup-form-inner">
+      <div style="margin-bottom:20px">
+        <div style="font-size:12px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;color:var(--ibm-blue-70);margin-bottom:4px">Session Details</div>
+        <div style="font-size:12px;color:var(--text-secondary)">Configure your workshop session before scoring begins.</div>
+      </div>
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Session Title</label>
+          <input type="text" class="form-input" id="sessionTitle" placeholder="e.g. Q2 Finance Transformation Workshop">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input type="date" class="form-input" id="sessionDate">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Facilitator</label>
+          <input type="text" class="form-input" id="sessionFacilitator" placeholder="Facilitator name">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Organisation</label>
+          <input type="text" class="form-input" id="sessionOrg" placeholder="Organisation or programme name">
+        </div>
+        <div class="form-group full" style="border-bottom:none">
+          <label class="form-label">Finance Functions in This Session</label>
+          <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px">Select all functions participating in this workshop.</div>
+          <div class="sf-grid" id="sfSelectorGrid"></div>
+        </div>
+      </div>
+    </div>
+    <div class="setup-actions">
+      <button class="btn btn-primary" onclick="startSession()">Start Session →</button>
+      <button class="btn btn-secondary btn-sm" onclick="loadSampleData()">⊕ Load Sample Data</button>
+      <button class="btn btn-danger btn-sm" onclick="clearSession()">✕ Clear</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== WORKSHOP ========== -->
+<div class="panel" id="panel-workshop">
+  <div class="workshop-grid">
+    <div class="sf-sidebar">
+      <div class="sidebar-header">Finance Functions</div>
+      <div id="sfNavList"></div>
+      <div class="sidebar-progress">
+        <div class="progress-label-row">
+          <span>Progress</span>
+          <span id="progressLabel" class="mono" style="font-size:11px;color:var(--ibm-blue-60)">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      </div>
+    </div>
+    <div class="questions-pane">
+      <div class="sf-pane-header" id="sfPaneHeader"></div>
+      <div class="questions-body" id="questionsArea"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== SF DASHBOARD ========== -->
+<div class="panel" id="panel-sf-dash">
+  <div class="content">
+    <div class="page-title-row">
+      <div>
+        <div class="page-title">Function View</div>
+        <div class="page-subtitle">Detailed readiness breakdown for a single finance function.</div>
+      </div>
+      <div style="display:flex;gap:0;border:1px solid var(--border)" id="sfDashSelector"></div>
+    </div>
+    <div id="sfDashContent"></div>
+  </div>
+</div>
+
+<!-- ========== CUMULATIVE ========== -->
+<div class="panel" id="panel-cumulative">
+  <div class="content">
+    <div class="page-title-row">
+      <div>
+        <div class="page-title">Cumulative View</div>
+        <div class="page-subtitle">Cross-function comparison of readiness scores across all assessed dimensions.</div>
+      </div>
+    </div>
+    <div id="cumulativeContent"></div>
+  </div>
+</div>
+
+<!-- ========== RECOMMENDATIONS ========== -->
+<div class="panel" id="panel-recommendations">
+  <div class="content">
+    <div class="page-title-row">
+      <div>
+        <div class="page-title">Recommended Actions</div>
+        <div class="page-subtitle">Prioritised actions generated from all scored questions and dimension aggregations.</div>
+      </div>
+    </div>
+    <div class="rec-filter-bar">
+      <button class="rec-filter-btn active" onclick="filterRecs(this,'all')">All</button>
+      <button class="rec-filter-btn" onclick="filterRecs(this,'Near-term')">🔴 Near-term</button>
+      <button class="rec-filter-btn" onclick="filterRecs(this,'Medium-term')">🟠 Medium-term</button>
+      <button class="rec-filter-btn" onclick="filterRecs(this,'Sustain')">🟢 Sustain</button>
+    </div>
+    <div id="recsContent"></div>
+  </div>
+</div>
+
+<!-- ========== EXPORT ========== -->
+<div class="panel" id="panel-export">
+  <div class="content">
+    <div class="page-title-row">
+      <div>
+        <div class="page-title">Export & Save</div>
+        <div class="page-subtitle">Download session data and recommendations in multiple formats.</div>
+      </div>
+    </div>
+    <div class="export-tiles">
+      <div class="export-tile">
+        <div class="export-tile-icon">{ }</div>
+        <div class="export-tile-name">Session JSON</div>
+        <div class="export-tile-desc">Full session including all scores, comments, and metadata. Reload sessions later.</div>
+        <button class="btn btn-secondary btn-sm" style="width:fit-content" onclick="exportJSON()">↓ Download JSON</button>
+      </div>
+      <div class="export-tile">
+        <div class="export-tile-icon">⊞</div>
+        <div class="export-tile-name">Scores CSV</div>
+        <div class="export-tile-desc">Flat CSV of all question scores by function for further analysis.</div>
+        <button class="btn btn-secondary btn-sm" style="width:fit-content" onclick="exportCSV()">↓ Download CSV</button>
+      </div>
+      <div class="export-tile">
+        <div class="export-tile-icon">✦</div>
+        <div class="export-tile-name">Recommendations JSON</div>
+        <div class="export-tile-desc">All triggered recommendations with owners, time horizons, and action types.</div>
+        <button class="btn btn-secondary btn-sm" style="width:fit-content" onclick="exportRecs()">↓ Download Recommendations</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span class="card-header-title">Session Summary</span></div>
+      <div class="card-body"><div id="exportSummary"></div></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===================== CONFIG =====================
+const CONFIG = {"appMeta":{"appName":"Transformation Readiness Workshop","version":"1.0.0","defaultScaleMin":1,"defaultScaleMax":5,"showRecommendationsForScores":[1,2,3],"dimensionScoreBands":[{"min":0,"max":2.49,"label":"Critical","color":"red"},{"min":2.5,"max":3.24,"label":"Priority","color":"orange"},{"min":3.25,"max":3.99,"label":"Strengthen","color":"yellow"},{"min":4,"max":5,"label":"Sustain","color":"green"}],"timeHorizonRules":[{"scores":[1,2],"timeHorizon":"Near-term"},{"scores":[3],"timeHorizon":"Medium-term"},{"scores":[4,5],"timeHorizon":"Sustain"}]},"subFunctions":[{"id":"p2p","label":"P2P"},{"id":"o2c","label":"O2C"},{"id":"rtr","label":"RTR"},{"id":"fpa","label":"FP&A"},{"id":"tax","label":"Tax"},{"id":"treasury","label":"Treasury"},{"id":"intercompany","label":"Intercompany"}],"dimensions":[{"id":"mindset","label":"Mindset & Ways of Thinking","weight":0.2,"ownerDefaults":["Transformation Lead","Tower Lead"]},{"id":"roles","label":"Roles & Responsibilities","weight":0.2,"ownerDefaults":["Tower Lead","Program Lead","HR"]},{"id":"process","label":"Process & Execution","weight":0.2,"ownerDefaults":["Process Owner","Tower Lead"]},{"id":"systems","label":"Systems & Automation","weight":0.2,"ownerDefaults":["Product Owner","IT Lead","Automation Lead"]},{"id":"data","label":"Data & Decisioning","weight":0.2,"ownerDefaults":["Data Lead","Reporting Lead","Tower Lead"]}],"questions":[{"id":"mindset_q1","dimensionId":"mindset","sequence":1,"text":"How are insights generated and used in day-to-day decision-making?","helperText":"Consider how often teams rely on dashboards versus spreadsheets and manual analysis.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Manual / spreadsheet-led","description":"Insights are largely built manually using spreadsheets; system outputs are rarely used directly."},{"score":2,"label":"Needs heavy rework","description":"System data is used, but significant offline manipulation is required before decisions."},{"score":3,"label":"Mixed usage","description":"Combination of dashboards and manual analysis is used."},{"score":4,"label":"Mostly dashboard-led","description":"Decisions are primarily based on system dashboards with limited offline dependency."},{"score":5,"label":"Insight-led","description":"Real-time dashboards and analytics directly drive decisions with minimal manual intervention."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Establish a targeted shift from spreadsheet-led analysis to dashboard-led reviews. Start with recurring review forums and require standard decisions to be supported by system-generated insights.","actionType":"Adoption / reporting discipline","suggestedOwners":["Transformation Lead","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Identify the top recurring offline reports and redesign them into trusted system views or dashboard outputs. Reduce manual extraction and rework.","actionType":"Reporting redesign / adoption","suggestedOwners":["Reporting Lead","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Standardize which decisions should be dashboard-led and where manual analysis is still justified. Introduce role-based guidance for when to use which source.","actionType":"Governance / enablement","suggestedOwners":["Program Lead","Tower Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Expand dashboard-led decision forums and reduce remaining offline reporting dependency.","actionType":"Optimization","suggestedOwners":["Tower Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Capture this as a leading practice and use it as an internal example for other teams.","actionType":"Leverage strength","suggestedOwners":["Transformation Lead"],"timeHorizon":"Sustain"}]},{"id":"mindset_q2","dimensionId":"mindset","sequence":2,"text":"What is the general attitude toward reducing manual activities through automation?","helperText":"Think about willingness to automate validations, repetitive activities, and operational effort.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Strong resistance","description":"Strong preference for manual checks and validations; automation is resisted."},{"score":2,"label":"Low-risk only","description":"Automation accepted only for simple, low-risk activities."},{"score":3,"label":"Selective adoption","description":"Selective adoption; some activities automated while others remain manual."},{"score":4,"label":"Positive adoption","description":"Positive adoption; automation used across multiple activities."},{"score":5,"label":"Proactive mindset","description":"Proactive approach; teams actively identify and implement automation opportunities."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Launch structured case-for-change sessions focused on why manual control is not the same as better control. Use examples of reduced errors, faster cycle times, and clearer exception handling.","actionType":"Mindset / leadership communication","suggestedOwners":["Transformation Lead","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Start with low-risk automation use cases and demonstrate quick wins to build confidence before scaling to more judgment-heavy activities.","actionType":"Pilot adoption","suggestedOwners":["Automation Lead","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Build an automation roadmap by activity type and define where manual effort should reduce over time.","actionType":"Roadmap / prioritization","suggestedOwners":["Automation Lead","Program Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Expand automation to adjacent activities and formalize a continuous improvement pipeline.","actionType":"Optimization","suggestedOwners":["Automation Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Position this team as a co-creator for future automation waves and champions network.","actionType":"Leverage strength","suggestedOwners":["Transformation Lead"],"timeHorizon":"Sustain"}]},{"id":"mindset_q3","dimensionId":"mindset","sequence":3,"text":"How do teams handle ownership of activities versus reliance on support teams?","helperText":"Look at routine problem solving, escalations, and whether teams resolve issues within their own operating boundaries.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Highly dependent","description":"Heavy reliance on support teams for routine tasks and issue resolution."},{"score":2,"label":"Partially dependent","description":"Partial ownership, but frequent escalations and dependencies remain."},{"score":3,"label":"Ownership defined but uneven","description":"Ownership defined but inconsistently exercised."},{"score":4,"label":"Mostly self-sufficient","description":"Most activities handled independently with limited dependency."},{"score":5,"label":"Strong ownership culture","description":"Strong ownership mindset with proactive resolution and minimal dependency."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Clarify ownership boundaries immediately and redesign handoffs. Define what activities should remain within the team versus escalate to support groups.","actionType":"Operating model / role clarity","suggestedOwners":["Tower Lead","Program Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Map frequent escalations and remove avoidable dependencies through SOPs, knowledge support, and capability building.","actionType":"Dependency reduction","suggestedOwners":["Tower Lead","Support Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Reinforce ownership through role charters and manager expectations. Monitor repeat escalations.","actionType":"Role clarity / reinforcement","suggestedOwners":["Tower Lead","Program Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Fine-tune escalation rules and strengthen self-resolution capability.","actionType":"Optimization","suggestedOwners":["Tower Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Document strong ownership practices and reuse them in transition planning.","actionType":"Leverage strength","suggestedOwners":["Transformation Lead"],"timeHorizon":"Sustain"}]},{"id":"roles_q1","dimensionId":"roles","sequence":1,"text":"How clearly are roles evolving from execution-focused to insight-driven responsibilities?","helperText":"Consider whether people understand how their work is changing, not just that change is happening.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"No role shift clarity","description":"Roles remain focused on execution and transaction processing."},{"score":2,"label":"High-level awareness only","description":"Awareness of role shift exists but not clearly defined."},{"score":3,"label":"Partially defined","description":"Roles are partially defined but not fully understood."},{"score":4,"label":"Mostly clear","description":"Roles are clearly defined with minor gaps."},{"score":5,"label":"Fully aligned","description":"Roles are fully aligned to future expectations and consistently applied."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Create future-state role charters with clear examples of what work reduces, what work remains, and what new expectations emerge.","actionType":"Role design","suggestedOwners":["Tower Lead","Program Lead","HR"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Translate high-level role changes into practical 'what changes for me' guidance for each tower and level.","actionType":"Role clarity / communications","suggestedOwners":["HR","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Run role clarity workshops to align job expectations, decision rights, and capability gaps.","actionType":"Workshop / alignment","suggestedOwners":["Program Lead","Tower Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Embed updated responsibilities into goals, training, and performance discussions.","actionType":"Embedding / sustainment","suggestedOwners":["HR","Tower Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Use these roles as benchmark role profiles for broader rollout.","actionType":"Leverage strength","suggestedOwners":["Program Lead"],"timeHorizon":"Sustain"}]},{"id":"roles_q2","dimensionId":"roles","sequence":2,"text":"How prepared are managers to move beyond approvals into decision-making using insights?","helperText":"Think about whether managers use dashboards, trends, and exceptions to act, instead of only approving workflows.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Approval-led","description":"Managers primarily focus on approvals and validations."},{"score":2,"label":"Limited readiness","description":"Reliance on traditional approval mechanisms remains high."},{"score":3,"label":"Willing but not confident","description":"Managers are willing but lack confidence in interpreting insights."},{"score":4,"label":"Insight-enabled","description":"Managers are comfortable making decisions using available insights."},{"score":5,"label":"Decision-led","description":"Managers are fully transitioned to insight-led decision-making."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Redefine the manager role from approver to decision owner. Pair this with manager-specific coaching on interpreting trends, risks, and exceptions.","actionType":"Manager enablement","suggestedOwners":["Tower Lead","Transformation Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Build focused manager capability sessions around interpreting dashboards, challenging exceptions, and taking action without relying on support teams.","actionType":"Manager enablement","suggestedOwners":["Transformation Lead","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Introduce decision playbooks showing which decisions managers should make directly using system insights.","actionType":"Decision support","suggestedOwners":["Program Lead","Tower Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Strengthen advanced decision capability and use manager forums to share usage practices.","actionType":"Optimization","suggestedOwners":["Tower Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Use these managers as peer sponsors in adoption efforts.","actionType":"Leverage strength","suggestedOwners":["Transformation Lead"],"timeHorizon":"Sustain"}]},{"id":"roles_q3","dimensionId":"roles","sequence":3,"text":"To what extent do parallel activities exist outside the system?","helperText":"Consider trackers, manual reconciliations, email-based work, and other off-system control practices.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Extensive parallel activity","description":"Extensive parallel activities exist outside the system."},{"score":2,"label":"Frequent workarounds","description":"Frequent use of offline trackers alongside system processes."},{"score":3,"label":"Controlled but present","description":"Some parallel activities exist but are controlled."},{"score":4,"label":"Minimal workarounds","description":"Offline workarounds are minimal."},{"score":5,"label":"Fully system-driven","description":"Work is fully system-driven with no parallel activities."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Identify the top offline trackers, reconciliations, and email-based workarounds. Create a removal plan with clear ownership and timelines.","actionType":"Process discipline / control environment","suggestedOwners":["Tower Lead","Process Owner"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Rationalize parallel activities by separating true business need from habit-driven duplication.","actionType":"Control rationalization","suggestedOwners":["Process Owner","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Track remaining offline activities and progressively eliminate those that duplicate system capabilities.","actionType":"Governance / rationalization","suggestedOwners":["Process Owner"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Monitor exceptions to prevent reintroduction of shadow processes.","actionType":"Optimization","suggestedOwners":["Process Owner"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Sustain current discipline and use it as a control benchmark.","actionType":"Leverage strength","suggestedOwners":["Program Lead"],"timeHorizon":"Sustain"}]},{"id":"process_q1","dimensionId":"process","sequence":1,"text":"How consistent are processes across teams, entities, or regions?","helperText":"Think about whether the same activity is performed in a similar way across the operating model.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Highly fragmented","description":"Processes vary significantly across teams and locations."},{"score":2,"label":"Partially aligned","description":"Partial alignment with notable inconsistencies."},{"score":3,"label":"Defined but inconsistent","description":"Standard processes are defined but not consistently followed."},{"score":4,"label":"Mostly consistent","description":"Processes are mostly consistent with limited deviations."},{"score":5,"label":"Fully standardized","description":"Processes are fully standardized and consistently followed."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Launch process harmonization workshops immediately. Define minimum standard ways of working before technology changes are scaled.","actionType":"Standardization","suggestedOwners":["Process Owner","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Identify the highest-variation process steps and prioritize them for alignment.","actionType":"Standardization / prioritization","suggestedOwners":["Process Owner","Program Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Strengthen adherence through SOP refresh, governance, and exception review forums.","actionType":"Governance / adherence","suggestedOwners":["Process Owner"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Address remaining edge-case variations and improve policy enforcement.","actionType":"Optimization","suggestedOwners":["Process Owner"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Preserve the standard model and use it as the baseline for future waves.","actionType":"Leverage strength","suggestedOwners":["Program Lead"],"timeHorizon":"Sustain"}]},{"id":"process_q2","dimensionId":"process","sequence":2,"text":"What is the level of manual effort in key activities?","helperText":"Think about entries, validations, reconciliations, follow-ups, and other effort-intensive operational steps.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Highly manual","description":"Activities are largely manual and effort-intensive."},{"score":2,"label":"Some support, still manual-heavy","description":"Some system support exists but manual effort remains high."},{"score":3,"label":"Mixed model","description":"There is a balanced mix of manual and automated steps."},{"score":4,"label":"Mostly system-driven","description":"Work is mostly system-driven with limited manual effort."},{"score":5,"label":"Exception-led","description":"Activities are fully automated with focus on exception handling."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Prioritize manual-heavy activities for redesign and automation. Start with high-volume and repeatable tasks.","actionType":"Automation / efficiency","suggestedOwners":["Process Owner","Automation Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Map the top effort drivers and define which manual steps are due to policy, system gaps, or user behavior.","actionType":"Process analysis","suggestedOwners":["Process Owner","Program Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Reduce avoidable manual work through workflow redesign and targeted automation.","actionType":"Optimization / redesign","suggestedOwners":["Process Owner","Automation Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Focus on residual manual exceptions and productivity optimization.","actionType":"Optimization","suggestedOwners":["Process Owner"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Maintain exception-led execution and track any reintroduction of manual work.","actionType":"Leverage strength","suggestedOwners":["Tower Lead"],"timeHorizon":"Sustain"}]},{"id":"process_q3","dimensionId":"process","sequence":3,"text":"How are exceptions or breaks handled in current processes?","helperText":"Think about recurring breaks, mismatches, escalations, and how consistently exception paths are managed.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Case-by-case handling","description":"Exceptions are frequent and handled manually case-by-case."},{"score":2,"label":"High manual exception volume","description":"There is a high volume of exceptions requiring manual intervention."},{"score":3,"label":"Some structure","description":"Moderate exceptions exist with some structured handling."},{"score":4,"label":"Defined workflows","description":"Exceptions are limited and handled through defined workflows."},{"score":5,"label":"Exception-led model","description":"Standard cases flow without intervention; effort is focused on true exceptions."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Define structured exception categories, ownership, and resolution paths. Too many exceptions usually indicate weak standards or upstream quality issues.","actionType":"Exception governance","suggestedOwners":["Process Owner","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Analyze the top recurring exception causes and remove them at source rather than resolving them manually downstream.","actionType":"Root cause reduction","suggestedOwners":["Process Owner","Data Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Improve workflow-based exception handling and reporting visibility.","actionType":"Workflow / visibility","suggestedOwners":["Process Owner","Product Owner"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Optimize turnaround time and exception analytics.","actionType":"Optimization","suggestedOwners":["Process Owner"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Maintain the exception-led model and reuse practices where standard flow is strong.","actionType":"Leverage strength","suggestedOwners":["Program Lead"],"timeHorizon":"Sustain"}]},{"id":"systems_q1","dimensionId":"systems","sequence":1,"text":"How effectively are current systems used for day-to-day activities?","helperText":"Consider whether work is completed in the system or outside it through spreadsheets, email, or local files.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Low usage","description":"Low usage; most work is done outside the system."},{"score":2,"label":"Mandatory-only usage","description":"Systems are used only for mandatory steps."},{"score":3,"label":"Moderate usage","description":"Usage is moderate; several features remain underutilized."},{"score":4,"label":"Strong usage","description":"Systems are used strongly across most functionalities."},{"score":5,"label":"Advanced usage","description":"Systems are used in advanced ways with full feature utilization and integrations."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Run a focused adoption diagnostic to understand why work continues outside the system — capability gap, usability issue, trust issue, or process mismatch.","actionType":"Adoption diagnostic","suggestedOwners":["Product Owner","IT Lead","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Target mandatory-only usage areas and expand usage through guided workflows, training, and simplification.","actionType":"Enablement / adoption","suggestedOwners":["Product Owner","Transformation Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Identify underused features with the highest business value and drive focused enablement.","actionType":"Feature adoption","suggestedOwners":["Product Owner"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Improve advanced usage and remove remaining drop-offs.","actionType":"Optimization","suggestedOwners":["IT Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Use this group to test next-wave capabilities and advanced features.","actionType":"Leverage strength","suggestedOwners":["Product Owner","Program Lead"],"timeHorizon":"Sustain"}]},{"id":"systems_q2","dimensionId":"systems","sequence":2,"text":"What level of trust do users have in system-generated outputs?","helperText":"Think about reports, balances, dashboards, workflow outputs, and how often they are manually revalidated.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Very low trust","description":"Outputs are frequently rechecked or recreated manually."},{"score":2,"label":"Low trust","description":"Users rely on parallel validation before using system outputs."},{"score":3,"label":"Moderate trust","description":"Outputs are used with periodic validation."},{"score":4,"label":"High trust","description":"Outputs are trusted with minimal overrides."},{"score":5,"label":"Full trust","description":"Outputs are directly used for decisions and reporting."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Restore trust by validating critical outputs, fixing known quality issues, and openly addressing where the system is not yet reliable.","actionType":"Trust rebuilding / data quality","suggestedOwners":["Product Owner","Data Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Focus on high-visibility outputs where manual revalidation is common. Resolve root causes and communicate improvements.","actionType":"Trust rebuilding","suggestedOwners":["Product Owner","Reporting Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Reduce duplicate checks over time by clarifying when system outputs can be treated as authoritative.","actionType":"Governance / trust reinforcement","suggestedOwners":["Tower Lead","Data Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Sustain trust through control checks and transparent issue resolution.","actionType":"Optimization","suggestedOwners":["Data Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Expand reliance on system outputs in routine decision forums.","actionType":"Leverage strength","suggestedOwners":["Tower Lead"],"timeHorizon":"Sustain"}]},{"id":"systems_q3","dimensionId":"systems","sequence":3,"text":"How widely is automation applied across activities?","helperText":"Consider workflow automation, robotic automation, intelligent routing, and automated controls.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"No automation","description":"No automation is in place."},{"score":2,"label":"Limited pilots","description":"Automation exists only in isolated pilots or narrow use cases."},{"score":3,"label":"Selected areas","description":"Automation is applied in selected areas."},{"score":4,"label":"Scaled across processes","description":"Automation is scaled across multiple processes."},{"score":5,"label":"Intelligent and adaptive","description":"Automation is advanced, intelligent, and adaptive."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Build an automation opportunity pipeline and prioritize by volume, repeatability, and business pain.","actionType":"Automation roadmap","suggestedOwners":["Automation Lead","Program Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Move from isolated pilots to a structured scale-up plan with success criteria and ownership.","actionType":"Scale-up planning","suggestedOwners":["Automation Lead","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Expand automation into adjacent activities and strengthen benefit tracking.","actionType":"Expansion / benefits tracking","suggestedOwners":["Automation Lead","Program Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Integrate automation governance, monitoring, and continuous improvement.","actionType":"Optimization","suggestedOwners":["Automation Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Explore intelligent automation and predictive interventions where maturity is already strong.","actionType":"Leverage strength","suggestedOwners":["Automation Lead","Program Lead"],"timeHorizon":"Sustain"}]},{"id":"data_q1","dimensionId":"data","sequence":1,"text":"How reliable and consistent is data across different systems and reports?","helperText":"Think about reconciliations, mismatches, duplicate versions, and confidence in reported numbers.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Frequent inconsistencies","description":"Frequent inconsistencies require manual reconciliation."},{"score":2,"label":"Common data issues","description":"Data issues are common across sources."},{"score":3,"label":"Generally reliable","description":"Data is generally reliable but requires periodic validation."},{"score":4,"label":"High reliability","description":"Data is highly reliable with minimal discrepancies."},{"score":5,"label":"Single source of truth","description":"Data is fully consistent and trusted as a single source of truth."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Launch a focused data quality and reconciliation improvement effort. Define source-of-truth ownership and critical data controls.","actionType":"Data governance","suggestedOwners":["Data Lead","Reporting Lead","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Address the most frequent mismatches first and improve upstream discipline rather than relying on downstream reconciliation effort.","actionType":"Data quality improvement","suggestedOwners":["Data Lead","Process Owner"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Formalize data review routines and strengthen issue escalation paths.","actionType":"Governance / monitoring","suggestedOwners":["Reporting Lead","Tower Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Sustain quality through governance and proactive monitoring.","actionType":"Sustainment","suggestedOwners":["Data Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Build on this foundation for more advanced analytics and predictive use cases.","actionType":"Leverage strength","suggestedOwners":["Data Lead","Program Lead"],"timeHorizon":"Sustain"}]},{"id":"data_q2","dimensionId":"data","sequence":2,"text":"How actively are dashboards and analytics used in monitoring performance?","helperText":"Think about recurring review forums, operational monitoring, and whether insights drive actions.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Rarely used","description":"Dashboards and analytics are rarely used; static or manual reports dominate."},{"score":2,"label":"Occasional use","description":"Dashboards are used occasionally, mainly for reporting."},{"score":3,"label":"Periodic use","description":"Dashboards are used in periodic reviews."},{"score":4,"label":"Regular use","description":"Dashboards are regularly used for monitoring and decision-making."},{"score":5,"label":"Embedded in operations","description":"Dashboards and analytics are embedded in daily workflows and operational decisions."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Introduce dashboard-led review routines and replace selected static reports with role-based views.","actionType":"Analytics adoption","suggestedOwners":["Reporting Lead","Transformation Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Clarify which operational decisions should be supported by dashboards and train teams on interpretation.","actionType":"Adoption / enablement","suggestedOwners":["Reporting Lead","Tower Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Increase usage frequency by embedding dashboards into regular reviews.","actionType":"Governance / adoption","suggestedOwners":["Tower Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Improve insight depth and action orientation in dashboard usage.","actionType":"Optimization","suggestedOwners":["Reporting Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Use dashboards not only for monitoring but also for proactive intervention and scenario review.","actionType":"Leverage strength","suggestedOwners":["Tower Lead","Program Lead"],"timeHorizon":"Sustain"}]},{"id":"data_q3","dimensionId":"data","sequence":3,"text":"How forward-looking are decisions?","helperText":"Consider whether review forums focus only on past results or also on trends, forecasts, risks, and scenarios.","appliesTo":["p2p","o2c","rtr","fpa","tax","treasury","intercompany"],"ratingScale":[{"score":1,"label":"Fully backward-looking","description":"Decisions are focused on historical reporting."},{"score":2,"label":"Limited forward view","description":"Forward-looking insights are limited."},{"score":3,"label":"Mixed view","description":"A mix of historical and forward-looking analysis is used."},{"score":4,"label":"Forecast and trend-led","description":"Strong use of forecasting and trend analysis supports decisions."},{"score":5,"label":"Predictive and scenario-based","description":"Decisions are predictive and scenario-based."}],"recommendationRules":[{"scores":[1],"severity":"High","recommendation":"Shift review forums beyond historical reporting by introducing forecast, trend, and risk discussions.","actionType":"Decision maturity","suggestedOwners":["Tower Lead","Transformation Lead"],"timeHorizon":"Near-term"},{"scores":[2],"severity":"High","recommendation":"Build forecasting discipline and strengthen the use of leading indicators.","actionType":"Forecasting discipline","suggestedOwners":["Tower Lead","Reporting Lead"],"timeHorizon":"Near-term"},{"scores":[3],"severity":"Medium","recommendation":"Expand forward-looking analysis through scenarios, trends, and action-linked forecasting.","actionType":"Scenario / forecast maturity","suggestedOwners":["Program Lead","Reporting Lead"],"timeHorizon":"Medium-term"},{"scores":[4],"severity":"Low","recommendation":"Improve predictive maturity and connect forecasts to intervention planning.","actionType":"Optimization","suggestedOwners":["Tower Lead"],"timeHorizon":"Sustain"},{"scores":[5],"severity":"Low","recommendation":"Use the team as an anchor for scenario-led planning and predictive decision-making.","actionType":"Leverage strength","suggestedOwners":["Program Lead","Tower Lead"],"timeHorizon":"Sustain"}]}],"dimensionRecommendationRules":[{"dimensionId":"mindset","scoreMin":0,"scoreMax":2.49,"severity":"Critical","recommendation":"Prioritize mindset reset through leadership messaging, practical change narratives, and visible examples of how work will shift.","suggestedOwners":["Transformation Lead","Tower Lead"]},{"dimensionId":"mindset","scoreMin":2.5,"scoreMax":3.24,"severity":"Priority","recommendation":"Strengthen adoption by reinforcing expected behaviors and reducing fallback to legacy ways of working.","suggestedOwners":["Transformation Lead","Tower Lead"]},{"dimensionId":"mindset","scoreMin":3.25,"scoreMax":3.99,"severity":"Strengthen","recommendation":"Build consistency in desired behaviors and extend strong practices across teams.","suggestedOwners":["Transformation Lead","Tower Lead"]},{"dimensionId":"mindset","scoreMin":4,"scoreMax":5,"severity":"Sustain","recommendation":"Sustain current behaviors and use leading teams as examples for others.","suggestedOwners":["Transformation Lead"]},{"dimensionId":"roles","scoreMin":0,"scoreMax":2.49,"severity":"Critical","recommendation":"Clarify future responsibilities, decision rights, and capability expectations before scaling new ways of working.","suggestedOwners":["Tower Lead","HR","Program Lead"]},{"dimensionId":"roles","scoreMin":2.5,"scoreMax":3.24,"severity":"Priority","recommendation":"Strengthen role clarity, manager expectations, and transition support across levels.","suggestedOwners":["Tower Lead","HR"]},{"dimensionId":"roles","scoreMin":3.25,"scoreMax":3.99,"severity":"Strengthen","recommendation":"Embed future-state role expectations into performance, learning, and governance.","suggestedOwners":["HR","Tower Lead"]},{"dimensionId":"roles","scoreMin":4,"scoreMax":5,"severity":"Sustain","recommendation":"Sustain role clarity and reuse mature role designs as reference models.","suggestedOwners":["Program Lead","HR"]},{"dimensionId":"process","scoreMin":0,"scoreMax":2.49,"severity":"Critical","recommendation":"Address process fragmentation and high manual effort before expecting consistent adoption.","suggestedOwners":["Process Owner","Tower Lead"]},{"dimensionId":"process","scoreMin":2.5,"scoreMax":3.24,"severity":"Priority","recommendation":"Prioritize alignment of high-variation steps and reduce avoidable manual effort.","suggestedOwners":["Process Owner","Program Lead"]},{"dimensionId":"process","scoreMin":3.25,"scoreMax":3.99,"severity":"Strengthen","recommendation":"Strengthen process governance, adherence, and exception discipline.","suggestedOwners":["Process Owner","Tower Lead"]},{"dimensionId":"process","scoreMin":4,"scoreMax":5,"severity":"Sustain","recommendation":"Sustain standard ways of working and monitor for drift.","suggestedOwners":["Process Owner"]},{"dimensionId":"systems","scoreMin":0,"scoreMax":2.49,"severity":"Critical","recommendation":"Resolve adoption blockers and trust issues in current systems before driving further transformation dependency.","suggestedOwners":["Product Owner","IT Lead"]},{"dimensionId":"systems","scoreMin":2.5,"scoreMax":3.24,"severity":"Priority","recommendation":"Improve usage depth, simplify workflows, and reduce off-system activity.","suggestedOwners":["Product Owner","Transformation Lead"]},{"dimensionId":"systems","scoreMin":3.25,"scoreMax":3.99,"severity":"Strengthen","recommendation":"Increase advanced feature adoption and strengthen optimization discipline.","suggestedOwners":["Product Owner","IT Lead"]},{"dimensionId":"systems","scoreMin":4,"scoreMax":5,"severity":"Sustain","recommendation":"Sustain strong usage and position mature teams for next-wave capabilities.","suggestedOwners":["Product Owner","Program Lead"]},{"dimensionId":"data","scoreMin":0,"scoreMax":2.49,"severity":"Critical","recommendation":"Improve data reliability, ownership, and source-of-truth discipline to support credible decisions.","suggestedOwners":["Data Lead","Reporting Lead"]},{"dimensionId":"data","scoreMin":2.5,"scoreMax":3.24,"severity":"Priority","recommendation":"Address recurring data issues and embed stronger review and escalation routines.","suggestedOwners":["Data Lead","Tower Lead"]},{"dimensionId":"data","scoreMin":3.25,"scoreMax":3.99,"severity":"Strengthen","recommendation":"Strengthen analytics usage and increase forward-looking decision support.","suggestedOwners":["Reporting Lead","Tower Lead"]},{"dimensionId":"data","scoreMin":4,"scoreMax":5,"severity":"Sustain","recommendation":"Sustain data discipline and extend toward advanced analytics and scenario-led decisions.","suggestedOwners":["Data Lead","Program Lead"]}],"rollupRules":{"questionTriggerMode":"show_if_score_in","questionTriggerScores":[1,2,3],"dimensionAggregation":"average","subFunctionAggregation":"average","overallAggregation":"weighted_average","topWeakQuestionsCount":3,"topStrengthQuestionsCount":2}};
+
+// ===================== DIMENSION COLORS (IBM) =====================
+const DIM_COLORS = {
+  mindset: { bar: '#8a3ffc', light: '#f6f2ff', text: '#6929c4' },
+  roles:   { bar: '#0f62fe', light: '#edf5ff', text: '#0043ce' },
+  process: { bar: '#f1c21b', light: '#fcf4d6', text: '#d2a106' },
+  systems: { bar: '#009d9a', light: '#d9fbfb', text: '#007d79' },
+  data:    { bar: '#da1e28', light: '#fff1f1', text: '#a2191f' }
+};
+const DIM_ICONS = { mindset:'🧠', roles:'👤', process:'⚙️', systems:'💻', data:'📊' };
+
+// ===================== STATE =====================
+let SESSION = { title:'',date:'',facilitator:'',org:'',participants:'',selectedSFs:[],scores:{},comments:{},createdAt:null };
+let currentSF = null, currentSFDash = null, recFilter = 'all';
+
+// ===================== INIT =====================
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('sessionDate').value = new Date().toISOString().split('T')[0];
+  renderSFSelector();
+  loadFromStorage();
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+});
+
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+  if (id === 'sf-dash') renderSFDash();
+  if (id === 'cumulative') renderCumulative();
+  if (id === 'recommendations') renderRecommendations();
+  if (id === 'export') renderExport();
+}
+
+// ===================== SETUP =====================
+function renderSFSelector() {
+  document.getElementById('sfSelectorGrid').innerHTML = CONFIG.subFunctions.map(sf =>
+    `<div class="sf-chip ${SESSION.selectedSFs.includes(sf.id)?'selected':''}" onclick="toggleSF('${sf.id}',this)">${sf.label}</div>`
+  ).join('');
+}
+
+function toggleSF(id, el) {
+  if (SESSION.selectedSFs.includes(id)) { SESSION.selectedSFs = SESSION.selectedSFs.filter(x=>x!==id); el.classList.remove('selected'); }
+  else { SESSION.selectedSFs.push(id); el.classList.add('selected'); }
+}
+
+function startSession() {
+  const title = document.getElementById('sessionTitle').value.trim();
+  if (!title) { toast('Please enter a session title'); return; }
+  if (!SESSION.selectedSFs.length) { toast('Select at least one function'); return; }
+  SESSION.title = title;
+  SESSION.date = document.getElementById('sessionDate').value;
+  SESSION.facilitator = document.getElementById('sessionFacilitator').value.trim();
+  SESSION.org = document.getElementById('sessionOrg').value.trim();
+  SESSION.participants = document.getElementById('sessionParticipants')?.value?.trim() || '';
+  SESSION.createdAt = SESSION.createdAt || new Date().toISOString();
+  SESSION.selectedSFs.forEach(sfId => { if (!SESSION.scores[sfId]) SESSION.scores[sfId] = {}; if (!SESSION.comments[sfId]) SESSION.comments[sfId] = {}; });
+  saveToStorage(); updateNav(); renderWorkshop(); switchTab('workshop');
+  toast('Session started — ' + title);
+}
+
+function updateNav() {
+  if (!SESSION.title) return;
+  const el = document.getElementById('navSession');
+  el.style.display = 'flex';
+  document.getElementById('navSessionLabel').textContent = SESSION.title;
+}
+
+function loadSampleData() {
+  SESSION = {
+    title: 'Q2 Finance Transformation — Sample Session',
+    date: new Date().toISOString().split('T')[0],
+    facilitator: 'Jane Smith', org: 'Acme Corporation', participants: 'Tower Leads, Process Owners',
+    selectedSFs: ['p2p','o2c','rtr','fpa'],
+    scores: {
+      p2p: { mindset_q1:2,mindset_q2:2,mindset_q3:3,roles_q1:2,roles_q2:1,roles_q3:3,process_q1:2,process_q2:1,process_q3:2,systems_q1:2,systems_q2:2,systems_q3:1,data_q1:2,data_q2:1,data_q3:1 },
+      o2c: { mindset_q1:3,mindset_q2:3,mindset_q3:3,roles_q1:3,roles_q2:2,roles_q3:3,process_q1:3,process_q2:3,process_q3:3,systems_q1:3,systems_q2:2,systems_q3:2,data_q1:3,data_q2:2,data_q3:2 },
+      rtr: { mindset_q1:4,mindset_q2:3,mindset_q3:4,roles_q1:3,roles_q2:3,roles_q3:4,process_q1:4,process_q2:3,process_q3:3,systems_q1:4,systems_q2:3,systems_q3:3,data_q1:4,data_q2:3,data_q3:3 },
+      fpa: { mindset_q1:4,mindset_q2:4,mindset_q3:4,roles_q1:4,roles_q2:4,roles_q3:5,process_q1:4,process_q2:4,process_q3:4,systems_q1:4,systems_q2:4,systems_q3:3,data_q1:4,data_q2:4,data_q3:4 }
+    },
+    comments: { p2p:{}, o2c:{}, rtr:{}, fpa:{} },
+    createdAt: new Date().toISOString()
+  };
+  ['sessionTitle','sessionFacilitator','sessionOrg'].forEach(id => {
+    const map = {sessionTitle:SESSION.title,sessionFacilitator:SESSION.facilitator,sessionOrg:SESSION.org};
+    document.getElementById(id).value = map[id];
+  });
+  document.getElementById('sessionDate').value = SESSION.date;
+  renderSFSelector(); saveToStorage(); updateNav(); renderWorkshop(); switchTab('workshop');
+  toast('Sample data loaded');
+}
+
+function clearSession() {
+  if (!confirm('Clear all session data?')) return;
+  SESSION = {title:'',date:'',facilitator:'',org:'',participants:'',selectedSFs:[],scores:{},comments:{},createdAt:null};
+  localStorage.removeItem('finready_session');
+  ['sessionTitle','sessionFacilitator','sessionOrg'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('navSession').style.display='none';
+  renderSFSelector();
+  toast('Session cleared');
+}
+
+// ===================== WORKSHOP =====================
+function renderWorkshop() {
+  const navList = document.getElementById('sfNavList');
+  navList.innerHTML = SESSION.selectedSFs.map(sfId => {
+    const sf = CONFIG.subFunctions.find(s=>s.id===sfId);
+    const qs = getQsForSF(sfId);
+    const ans = qs.filter(q=>SESSION.scores[sfId]?.[q.id]).length;
+    const cls = ans===qs.length?'complete':ans>0?'partial':'empty';
+    const lbl = ans===qs.length?'✓':`${ans}/${qs.length}`;
+    return `<div class="sf-nav-item ${currentSF===sfId?'active':''}" onclick="selectSF('${sfId}')">
+      <span class="sf-nav-label">${sf.label}</span>
+      <span class="sf-status-pill ${cls}">${lbl}</span>
+    </div>`;
+  }).join('');
+  updateProgress();
+  if (!currentSF || !SESSION.selectedSFs.includes(currentSF)) currentSF = SESSION.selectedSFs[0];
+  renderQuestions();
+}
+
+function selectSF(sfId) { currentSF = sfId; renderWorkshop(); }
+function getQsForSF(sfId) { return CONFIG.questions.filter(q=>q.appliesTo.includes(sfId)); }
+
+function updateProgress() {
+  let total=0, ans=0;
+  SESSION.selectedSFs.forEach(sfId => {
+    const qs = getQsForSF(sfId); total+=qs.length;
+    ans+=qs.filter(q=>SESSION.scores[sfId]?.[q.id]).length;
+  });
+  const pct = total>0?Math.round((ans/total)*100):0;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressLabel').textContent=pct+'%';
+  const cnt = getAllTriggeredRecs().length;
+  const b = document.getElementById('recBadge');
+  b.textContent=cnt; b.style.display=cnt>0?'inline-flex':'none';
+}
+
+function renderQuestions() {
+  const area = document.getElementById('questionsArea');
+  const header = document.getElementById('sfPaneHeader');
+  if (!currentSF) { header.innerHTML=''; area.innerHTML=''; return; }
+  const sf = CONFIG.subFunctions.find(s=>s.id===currentSF);
+  const qs = getQsForSF(currentSF);
+  const answered = qs.filter(q=>SESSION.scores[currentSF]?.[q.id]).length;
+  const sfScore = calcSFScore(currentSF);
+  const band = getScoreBand(sfScore);
+  
+  header.innerHTML = `
+    <div class="sf-pane-name">${sf.label}</div>
+    <div style="flex:1"></div>
+    <div class="sf-pane-sub">${answered}/${qs.length} questions scored</div>
+    ${sfScore!==null ? `<div class="kpi-band-tag band-${band?band.label.toLowerCase():'neutral'}" style="margin-left:12px">${sfScore.toFixed(1)} / 5.0 · ${band?.label||''}</div>` : ''}`;
+
+  const byDim = {};
+  qs.forEach(q => { if(!byDim[q.dimensionId]) byDim[q.dimensionId]=[]; byDim[q.dimensionId].push(q); });
+
+  let html = '';
+  CONFIG.dimensions.forEach(dim => {
+    if(!byDim[dim.id]) return;
+    const dc = DIM_COLORS[dim.id];
+    const ds = calcDimScore(currentSF, dim.id);
+    const db = getScoreBand(ds);
+    html += `
+      <div class="dimension-card">
+        <div class="dim-header">
+          <div class="dim-stripe" style="background:${dc.bar}"></div>
+          <div class="dim-icon">${DIM_ICONS[dim.id]}</div>
+          <div style="flex:1">
+            <div class="dim-title">${dim.label}</div>
+          </div>
+          ${ds!==null?`<div class="dim-score-tag" style="background:${dc.light};color:${dc.text};font-family:var(--font-mono);font-size:12px;font-weight:600;padding:3px 10px">${ds.toFixed(1)} <span style="font-weight:300;opacity:0.7">/ 5</span></div>`:''}
+        </div>`;
+
+    byDim[dim.id].forEach((q,i) => {
+      const score = SESSION.scores[currentSF]?.[q.id] || null;
+      const comment = SESSION.comments[currentSF]?.[q.id] || '';
+      const rec = getTriggeredRec(q, score);
+      html += `
+        <div class="question-row">
+          <div class="q-header">
+            <span class="q-idx">Q${i+1}</span>
+            <span class="q-text">${q.text}</span>
+          </div>
+          <div class="q-helper">${q.helperText}</div>
+          <div class="rating-grid" style="margin-top:12px">
+            ${q.ratingScale.map(r=>`
+              <div class="score-btn ${score===r.score?'sel':''}" data-score="${r.score}" onclick="setScore('${currentSF}','${q.id}',${r.score})" title="${r.description}">
+                <div class="score-num">${r.score}</div>
+                <div class="score-label">${r.label}</div>
+              </div>`).join('')}
+          </div>
+          <div id="rec-${currentSF}-${q.id}">${rec?renderInlineRec(rec):''}</div>
+          <textarea class="comment-box" rows="2" placeholder="Add facilitator note or comment…" onchange="setComment('${currentSF}','${q.id}',this.value)">${comment}</textarea>
+        </div>`;
+    });
+
+    html += '</div>';
+  });
+
+  // Dimension-level triggered recs (Critical/Priority only)
+  const dimRecHtml = buildDimRecsBlock(currentSF);
+  area.innerHTML = html + dimRecHtml;
+}
+
+function renderInlineRec(rec) {
+  return `<div class="inline-rec ${rec.severity}">
+    <div style="flex:1">
+      <div class="rec-sev-label">${rec.severity} Priority</div>
+      <div class="rec-body-text">${rec.recommendation}</div>
+      <div class="rec-tags">
+        <span class="rec-tag">${rec.actionType}</span>
+        <span class="rec-tag">⏱ ${rec.timeHorizon}</span>
+        ${rec.suggestedOwners.map(o=>`<span class="rec-tag">${o}</span>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildDimRecsBlock(sfId) {
+  let items = [];
+  CONFIG.dimensions.forEach(dim => {
+    const qs = getQsForSF(sfId).filter(q=>q.dimensionId===dim.id);
+    if(!qs.length) return;
+    const score = calcDimScore(sfId, dim.id);
+    if(score===null) return;
+    const rule = CONFIG.dimensionRecommendationRules.find(r=>r.dimensionId===dim.id&&score>=r.scoreMin&&score<=r.scoreMax);
+    if(rule && ['Critical','Priority'].includes(rule.severity)) {
+      const dc = DIM_COLORS[dim.id];
+      items.push(`
+        <div style="border:1px solid var(--border);border-top:3px solid ${dc.bar};background:#fff;padding:14px 16px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+            <span>${DIM_ICONS[dim.id]}</span>
+            <span style="font-size:12px;font-weight:600;color:${dc.text}">${dim.label}</span>
+            <span class="tag-sev ${rule.severity}" style="margin-left:auto">${rule.severity}</span>
+          </div>
+          <div style="font-size:12px;color:var(--text-secondary);line-height:1.5;margin-bottom:6px">${rule.recommendation}</div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap">${rule.suggestedOwners.map(o=>`<span class="tag-owner">${o}</span>`).join('')}</div>
+        </div>`);
+    }
+  });
+  if(!items.length) return '';
+  return `<div style="margin-top:8px">
+    <div style="font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--ibm-blue-70);margin-bottom:10px;padding:0 0 8px;border-bottom:1px solid var(--border)">Dimension-Level Signals</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px">${items.join('')}</div>
+  </div>`;
+}
+
+function setScore(sfId, qId, score) {
+  if(!SESSION.scores[sfId]) SESSION.scores[sfId]={};
+  SESSION.scores[sfId][qId]=score;
+  saveToStorage();
+  // targeted update
+  const card = document.querySelector(`[onclick="setScore('${sfId}','${qId}',${score})"]`)?.closest('.question-row');
+  if(card) {
+    card.querySelectorAll('.score-btn').forEach(b=>b.classList.toggle('sel',parseInt(b.dataset.score)===score));
+    const r = getTriggeredRec(CONFIG.questions.find(q=>q.id===qId), score);
+    const recEl = document.getElementById(`rec-${sfId}-${qId}`);
+    if(recEl) recEl.innerHTML = r?renderInlineRec(r):'';
+  }
+  updateProgress();
+  // refresh sidebar status
+  const navItem = document.querySelector(`.sf-nav-item[onclick="selectSF('${sfId}')"]`);
+  if(navItem) {
+    const qs=getQsForSF(sfId), ans=qs.filter(q=>SESSION.scores[sfId]?.[q.id]).length;
+    const cls=ans===qs.length?'complete':ans>0?'partial':'empty';
+    const pill=navItem.querySelector('.sf-status-pill');
+    pill.className=`sf-status-pill ${cls}`;
+    pill.textContent=ans===qs.length?'✓':`${ans}/${qs.length}`;
+  }
+}
+
+function setComment(sfId,qId,val) {
+  if(!SESSION.comments[sfId]) SESSION.comments[sfId]={};
+  SESSION.comments[sfId][qId]=val;
+  saveToStorage();
+}
+
+function getTriggeredRec(q, score) {
+  if(!score||!CONFIG.rollupRules.questionTriggerScores.includes(score)) return null;
+  return q.recommendationRules.find(r=>r.scores.includes(score))||null;
+}
+
+// ===================== SCORING =====================
+function calcDimScore(sfId,dimId) {
+  const qs=CONFIG.questions.filter(q=>q.dimensionId===dimId&&q.appliesTo.includes(sfId));
+  const sc=qs.map(q=>SESSION.scores[sfId]?.[q.id]).filter(s=>s!=null);
+  return sc.length?sc.reduce((a,b)=>a+b,0)/sc.length:null;
+}
+function calcSFScore(sfId) {
+  const qs=getQsForSF(sfId);
+  const sc=qs.map(q=>SESSION.scores[sfId]?.[q.id]).filter(s=>s!=null);
+  return sc.length?sc.reduce((a,b)=>a+b,0)/sc.length:null;
+}
+function calcOverallScore() {
+  const sc=SESSION.selectedSFs.map(calcSFScore).filter(s=>s!=null);
+  return sc.length?sc.reduce((a,b)=>a+b,0)/sc.length:null;
+}
+function getScoreBand(score) {
+  if(score===null) return null;
+  return CONFIG.appMeta.dimensionScoreBands.find(b=>score>=b.min&&score<=b.max);
+}
+function getBandClass(score) {
+  const b=getScoreBand(score);
+  return b?b.label.toLowerCase():'empty';
+}
+function bandColor(score) {
+  const bc=getBandClass(score);
+  return {critical:'var(--ibm-red-60)',priority:'var(--ibm-orange-40)',strengthen:'var(--ibm-yellow-30)',sustain:'var(--ibm-green-50)',empty:'var(--ibm-gray-30)'}[bc]||'var(--ibm-blue-60)';
+}
+function bandClass(score) { return 'band-'+getBandClass(score); }
+function barClass(score) { return 'bar-'+getBandClass(score); }
+function hmClass(score) { return 'hm-'+getBandClass(score); }
+
+function getAllTriggeredRecs() {
+  const out=[];
+  SESSION.selectedSFs.forEach(sfId=>{
+    CONFIG.questions.forEach(q=>{
+      if(!q.appliesTo.includes(sfId)) return;
+      const score=SESSION.scores[sfId]?.[q.id];
+      if(!score) return;
+      const rec=getTriggeredRec(q,score);
+      if(rec) out.push({sfId,q,score,rec});
+    });
+  });
+  return out;
+}
+
+// ===================== SF DASHBOARD =====================
+function renderSFDash() {
+  const sel = document.getElementById('sfDashSelector');
+  sel.innerHTML = SESSION.selectedSFs.map(sfId => {
+    const sf=CONFIG.subFunctions.find(s=>s.id===sfId);
+    return `<button style="padding:8px 16px;font-size:12px;font-family:var(--font-mono);font-weight:${currentSFDash===sfId?'600':'400'};cursor:pointer;border:none;border-right:1px solid var(--border);background:${currentSFDash===sfId?'var(--ibm-blue-60)':'#fff'};color:${currentSFDash===sfId?'#fff':'var(--text-secondary)'};transition:var(--transition)" onclick="selectSFDash('${sfId}')">${sf.label}</button>`;
+  }).join('');
+  if(!currentSFDash||!SESSION.selectedSFs.includes(currentSFDash)) currentSFDash=SESSION.selectedSFs[0];
+  renderSFDashContent();
+}
+
+function selectSFDash(sfId) { currentSFDash=sfId; renderSFDash(); }
+
+function renderSFDashContent() {
+  const cont=document.getElementById('sfDashContent');
+  if(!currentSFDash){cont.innerHTML=emptyState('◈','No Session Active','Set up a session first.');return;}
+  const sf=CONFIG.subFunctions.find(s=>s.id===currentSFDash);
+  const sfScore=calcSFScore(currentSFDash);
+  const band=getScoreBand(sfScore);
+
+  // KPI tiles
+  const cols=CONFIG.dimensions.length+1;
+  let kpi=`<div class="kpi-row" style="grid-template-columns:repeat(${cols},1fr);margin-bottom:20px">`;
+  kpi+=kpiTile('Overall Score',sfScore!==null?sfScore.toFixed(1):'—','out of 5.0',band?band.label.toLowerCase():'neutral',band?band.label:null,'var(--ibm-blue-60)');
+  CONFIG.dimensions.forEach(dim=>{
+    const ds=calcDimScore(currentSFDash,dim.id);
+    const db=getScoreBand(ds);
+    const dc=DIM_COLORS[dim.id];
+    kpi+=kpiTile(DIM_ICONS[dim.id]+' '+dim.label.split(' ')[0],ds!==null?ds.toFixed(1):'—','dimension avg',db?db.label.toLowerCase():'neutral',db?db.label:null,dc.bar);
+  });
+  kpi+='</div>';
+
+  // Bar chart
+  let bars='<div class="card"><div class="card-header"><span class="card-header-title">◈ Dimension Breakdown</span></div><div class="card-body"><div class="bar-list">';
+  CONFIG.dimensions.forEach(dim=>{
+    const dc=DIM_COLORS[dim.id];
+    const ds=calcDimScore(currentSFDash,dim.id);
+    const pct=ds!==null?(ds/5)*100:0;
+    bars+=`<div class="bar-row">
+      <div class="bar-row-label">${DIM_ICONS[dim.id]} ${dim.label}</div>
+      <div class="bar-track">
+        ${ds!==null?`<div class="bar-fill ${barClass(ds)}" style="width:${pct}%">${ds.toFixed(1)}</div>`:'<div style="padding:4px 8px;font-size:11px;color:var(--text-placeholder)">Not yet scored</div>'}
+      </div>
+    </div>`;
+  });
+  bars+='</div></div></div>';
+
+  // Strengths / weaknesses
+  const qs=getQsForSF(currentSFDash).map(q=>({q,score:SESSION.scores[currentSFDash]?.[q.id]})).filter(d=>d.score!=null);
+  qs.sort((a,b)=>a.score-b.score);
+  const weak=qs.slice(0,CONFIG.rollupRules.topWeakQuestionsCount);
+  const strong=qs.slice(-CONFIG.rollupRules.topStrengthQuestionsCount).reverse();
+
+  const insightHtml=`<div class="insight-cols">
+    <div class="insight-card">
+      <div class="insight-card-head" style="color:var(--ibm-red-60)">🔴 Focus Areas</div>
+      ${weak.length?weak.map((d,i)=>{
+        const dim=CONFIG.dimensions.find(dd=>dd.id===d.q.dimensionId);
+        return `<div class="insight-item"><div class="insight-rank" style="color:var(--ibm-red-50)">${i+1}</div><div style="flex:1"><div class="insight-q">${d.q.text}<div class="insight-q-dim">${DIM_ICONS[d.q.dimensionId]} ${dim?.label}</div></div></div><div class="insight-score" style="color:var(--ibm-red-50)">${d.score}</div></div>`;
+      }).join(''):`<div style="padding:16px;font-size:12px;color:var(--text-placeholder)">Score questions to see focus areas</div>`}
+    </div>
+    <div class="insight-card">
+      <div class="insight-card-head" style="color:var(--ibm-green-60)">✦ Strengths</div>
+      ${strong.length?strong.map((d,i)=>{
+        const dim=CONFIG.dimensions.find(dd=>dd.id===d.q.dimensionId);
+        return `<div class="insight-item"><div class="insight-rank" style="color:var(--ibm-green-50)">${i+1}</div><div style="flex:1"><div class="insight-q">${d.q.text}<div class="insight-q-dim">${DIM_ICONS[d.q.dimensionId]} ${dim?.label}</div></div></div><div class="insight-score" style="color:var(--ibm-green-50)">${d.score}</div></div>`;
+      }).join(''):`<div style="padding:16px;font-size:12px;color:var(--text-placeholder)">Score questions to see strengths</div>`}
+    </div>
+  </div>`;
+
+  // SF recs
+  const sfRecs=getAllTriggeredRecs().filter(r=>r.sfId===currentSFDash);
+  let recHtml='';
+  if(sfRecs.length){
+    recHtml=`<div class="card"><div class="card-header"><span class="card-header-title">✦ Recommendations — ${sf.label}</span><span style="font-size:11px;color:var(--text-secondary)">${sfRecs.length} actions</span></div><div>
+      ${sfRecs.map(r=>`<div class="rec-item">
+        <div class="rec-dot ${r.rec.severity}" style="margin-top:5px;flex-shrink:0"></div>
+        <div class="rec-item-body">
+          <div class="rec-q-label">${r.q.text}</div>
+          <div class="rec-text">${r.rec.recommendation}</div>
+          <div class="rec-footer">
+            <span class="tag-sev ${r.rec.severity}">${r.rec.severity}</span>
+            <span class="tag-time ${r.rec.timeHorizon==='Near-term'?'near':r.rec.timeHorizon==='Medium-term'?'medium':'sustain'}">${r.rec.timeHorizon}</span>
+            ${r.rec.suggestedOwners.map(o=>`<span class="tag-owner">${o}</span>`).join('')}
+          </div>
+        </div>
+      </div>`).join('')}
+    </div></div>`;
+  }
+
+  cont.innerHTML=kpi+bars+insightHtml+recHtml;
+}
+
+function kpiTile(label,value,sub,bandCls,bandLabel,accentColor) {
+  return `<div class="kpi-tile">
+    <div class="kpi-accent-bar" style="background:${accentColor}"></div>
+    <div class="kpi-tile-label">${label}</div>
+    <div class="kpi-tile-value" style="color:${accentColor}">${value}</div>
+    <div class="kpi-tile-sub">${sub}</div>
+    ${bandLabel?`<div class="kpi-band-tag band-${bandCls}">${bandLabel}</div>`:''}
+  </div>`;
+}
+
+// ===================== CUMULATIVE =====================
+function renderCumulative() {
+  const cont=document.getElementById('cumulativeContent');
+  if(!SESSION.selectedSFs.length){cont.innerHTML=emptyState('⊗','No Session Active','Start a session first.');return;}
+
+  const overall=calcOverallScore();
+  const ob=getScoreBand(overall);
+
+  // KPIs
+  let kpi=`<div class="kpi-row kpi-row-${Math.min(8,SESSION.selectedSFs.length+1)}" style="grid-template-columns:200px repeat(${SESSION.selectedSFs.length},1fr)">`;
+  kpi+=kpiTile('Overall Readiness',overall!==null?overall.toFixed(2):'—','all functions · weighted avg',ob?ob.label.toLowerCase():'neutral',ob?ob.label:null,'var(--ibm-blue-60)');
+  SESSION.selectedSFs.forEach(sfId=>{
+    const sf=CONFIG.subFunctions.find(s=>s.id===sfId);
+    const sc=calcSFScore(sfId);
+    const b=getScoreBand(sc);
+    kpi+=kpiTile(sf.label,sc!==null?sc.toFixed(1):'—','function avg',b?b.label.toLowerCase():'neutral',b?b.label:null,bandColor(sc));
+  });
+  kpi+='</div>';
+
+  // Legend
+  const legend=`<div class="legend-bar" style="margin-bottom:20px">
+    ${CONFIG.appMeta.dimensionScoreBands.map(b=>`<div class="legend-item"><div class="legend-dot" style="background:${bandColor(b.min+0.1)}"></div><span style="font-weight:600">${b.label}</span><span style="color:var(--text-secondary)">${b.min}–${b.max}</span></div>`).join('')}
+  </div>`;
+
+  // Heatmap
+  let hm=`<div class="card"><div class="card-header"><span class="card-header-title">⊞ Readiness Heatmap — Function × Dimension</span></div><div class="card-body">
+    <table class="heatmap-table">
+      <thead><tr>
+        <th>Dimension</th>
+        ${SESSION.selectedSFs.map(sfId=>`<th class="mono">${CONFIG.subFunctions.find(s=>s.id===sfId).label}</th>`).join('')}
+      </tr></thead>
+      <tbody>
+        ${CONFIG.dimensions.map(dim=>`<tr>
+          <td>${DIM_ICONS[dim.id]} ${dim.label}</td>
+          ${SESSION.selectedSFs.map(sfId=>{const sc=calcDimScore(sfId,dim.id);return `<td><div class="hm-cell ${hmClass(sc)}">${sc!==null?sc.toFixed(1):'—'}</div></td>`;}).join('')}
+        </tr>`).join('')}
+        <tr>
+          <td>Overall</td>
+          ${SESSION.selectedSFs.map(sfId=>{const sc=calcSFScore(sfId);return `<td><div class="hm-cell ${hmClass(sc)}">${sc!==null?sc.toFixed(1):'—'}</div></td>`;}).join('')}
+        </tr>
+      </tbody>
+    </table>
+  </div></div>`;
+
+  // Bar comparison
+  let bars=`<div class="card"><div class="card-header"><span class="card-header-title">▤ Function Comparison</span></div><div class="card-body"><div class="bar-list">
+    ${SESSION.selectedSFs.map(sfId=>{
+      const sf=CONFIG.subFunctions.find(s=>s.id===sfId);
+      const sc=calcSFScore(sfId);
+      const pct=sc!==null?(sc/5)*100:0;
+      return `<div class="bar-row">
+        <div class="bar-row-label">${sf.label}</div>
+        <div class="bar-track">${sc!==null?`<div class="bar-fill ${barClass(sc)}" style="width:${pct}%">${sc.toFixed(1)}</div>`:'<div style="padding:4px 8px;font-size:11px;color:var(--text-placeholder)">Not yet scored</div>'}</div>
+      </div>`;
+    }).join('')}
+  </div></div></div>`;
+
+  cont.innerHTML=kpi+legend+hm+bars;
+}
+
+// ===================== RECOMMENDATIONS =====================
+function renderRecommendations() {
+  const cont=document.getElementById('recsContent');
+  const allRecs=getAllTriggeredRecs();
+  if(!SESSION.selectedSFs.length||allRecs.length===0){
+    cont.innerHTML=emptyState('✦','No Recommendations Yet','Score questions to generate recommendations. Scores of 1, 2, or 3 trigger actions.');
+    return;
+  }
+
+  const filtered=recFilter==='all'?allRecs:allRecs.filter(r=>r.rec.timeHorizon===recFilter);
+  const bySF={};
+  filtered.forEach(r=>{if(!bySF[r.sfId])bySF[r.sfId]=[];bySF[r.sfId].push(r);});
+
+  let html='';
+  if(Object.keys(bySF).length){
+    html+=`<div class="rec-grid" style="margin-bottom:24px">
+      ${Object.entries(bySF).map(([sfId,recs])=>{
+        const sf=CONFIG.subFunctions.find(s=>s.id===sfId);
+        return `<div class="rec-block">
+          <div class="rec-block-head"><span class="rec-block-title">${sf.label}</span><span class="rec-count">${recs.length} action${recs.length>1?'s':''}</span></div>
+          ${recs.map(r=>`<div class="rec-item">
+            <div class="rec-dot ${r.rec.severity}" style="margin-top:5px;flex-shrink:0"></div>
+            <div class="rec-item-body">
+              <div class="rec-q-label">${DIM_ICONS[r.q.dimensionId]} ${r.q.text}</div>
+              <div class="rec-text">${r.rec.recommendation}</div>
+              <div class="rec-footer">
+                <span class="tag-sev ${r.rec.severity}">${r.rec.severity}</span>
+                <span class="tag-time ${r.rec.timeHorizon==='Near-term'?'near':r.rec.timeHorizon==='Medium-term'?'medium':'sustain'}">${r.rec.timeHorizon}</span>
+                <span style="font-size:9px;color:var(--text-secondary);font-family:var(--font-mono)">Score: ${r.score}</span>
+              </div>
+            </div>
+          </div>`).join('')}
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  // Dimension-level
+  const dimRecs=[];
+  SESSION.selectedSFs.forEach(sfId=>{
+    const sf=CONFIG.subFunctions.find(s=>s.id===sfId);
+    CONFIG.dimensions.forEach(dim=>{
+      const sc=calcDimScore(sfId,dim.id);
+      if(sc===null) return;
+      const rule=CONFIG.dimensionRecommendationRules.find(r=>r.dimensionId===dim.id&&sc>=r.scoreMin&&sc<=r.scoreMax);
+      if(rule) dimRecs.push({sfId,sf,dim,sc,rule});
+    });
+  });
+
+  const filtDim=recFilter==='all'?dimRecs:dimRecs.filter(r=>{
+    const map={'Near-term':['Critical'],'Medium-term':['Priority','Strengthen'],'Sustain':['Sustain']};
+    return (map[recFilter]||[]).includes(r.rule.severity);
+  });
+
+  if(filtDim.length){
+    html+=`<div style="margin-bottom:20px;font-size:11px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--ibm-blue-70)">Dimension-Level Recommendations</div>
+    <div class="dim-rec-grid">
+      ${filtDim.map(r=>{
+        const dc=DIM_COLORS[r.dim.id];
+        return `<div class="dim-rec-card" style="border-top-color:${dc.bar}">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+            <span>${DIM_ICONS[r.dim.id]}</span>
+            <span class="dim-rec-card-title">${r.dim.label}</span>
+          </div>
+          <div class="dim-rec-card-fn" style="color:${dc.text}">${r.sf.label} · ${r.sc.toFixed(1)} / 5.0</div>
+          <div class="dim-rec-card-text">${r.rule.recommendation}</div>
+          <div style="display:flex;gap:4px;flex-wrap:wrap;align-items:center">
+            <span class="tag-sev ${r.rule.severity}">${r.rule.severity}</span>
+            ${r.rule.suggestedOwners.map(o=>`<span class="tag-owner">${o}</span>`).join('')}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+
+  cont.innerHTML=html||emptyState('✦','No Recommendations for this filter','Try "All" to see all triggered recommendations.');
+}
+
+function filterRecs(el,filter) {
+  recFilter=filter;
+  document.querySelectorAll('.rec-filter-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderRecommendations();
+}
+
+// ===================== EXPORT =====================
+function renderExport() {
+  const cont=document.getElementById('exportSummary');
+  if(!SESSION.title){cont.innerHTML='<div style="color:var(--text-placeholder);font-size:13px">No session data yet.</div>';return;}
+  const total=SESSION.selectedSFs.reduce((a,sfId)=>a+getQsForSF(sfId).length,0);
+  const answered=SESSION.selectedSFs.reduce((a,sfId)=>a+getQsForSF(sfId).filter(q=>SESSION.scores[sfId]?.[q.id]).length,0);
+  const overall=calcOverallScore();
+  const band=getScoreBand(overall);
+  const recCnt=getAllTriggeredRecs().length;
+  cont.innerHTML=`<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px">
+    ${[
+      ['Session',SESSION.title],
+      ['Date',SESSION.date||'—'],
+      ['Facilitator',SESSION.facilitator||'—'],
+      ['Organisation',SESSION.org||'—'],
+      ['Functions Assessed',SESSION.selectedSFs.map(id=>CONFIG.subFunctions.find(s=>s.id===id).label).join(', ')],
+      ['Questions Scored',`${answered} / ${total}`],
+      ['Overall Readiness',overall!==null?`${overall.toFixed(2)} / 5.0 — ${band?.label||'—'}`:'—'],
+      ['Recommendations',`${recCnt} triggered`],
+    ].map(([k,v])=>`<div><div style="font-size:10px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--ibm-blue-70);margin-bottom:4px">${k}</div><div style="font-size:13px;color:var(--text-primary)">${v}</div></div>`).join('')}
+  </div>`;
+}
+
+function exportJSON() {
+  if(!SESSION.title){toast('No session to export');return;}
+  dl(new Blob([JSON.stringify(SESSION,null,2)],{type:'application/json'}),`finready_session_${SESSION.date||'export'}.json`);
+  toast('Session JSON downloaded');
+}
+function exportCSV() {
+  if(!SESSION.title){toast('No session to export');return;}
+  const rows=[['Function','Dimension','Question ID','Question','Score','Comment']];
+  SESSION.selectedSFs.forEach(sfId=>{
+    const sf=CONFIG.subFunctions.find(s=>s.id===sfId);
+    getQsForSF(sfId).forEach(q=>{
+      const dim=CONFIG.dimensions.find(d=>d.id===q.dimensionId);
+      rows.push([sf.label,dim.label,q.id,`"${q.text}"`,SESSION.scores[sfId]?.[q.id]||'',`"${SESSION.comments[sfId]?.[q.id]||''}"`]);
+    });
+  });
+  dl(new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'}),`finready_scores_${SESSION.date||'export'}.csv`);
+  toast('Scores CSV downloaded');
+}
+function exportRecs() {
+  if(!SESSION.title){toast('No session to export');return;}
+  const recs=getAllTriggeredRecs().map(r=>({
+    function:CONFIG.subFunctions.find(s=>s.id===r.sfId)?.label,
+    dimension:CONFIG.dimensions.find(d=>d.id===r.q.dimensionId)?.label,
+    question:r.q.text,score:r.score,
+    severity:r.rec.severity,recommendation:r.rec.recommendation,
+    actionType:r.rec.actionType,suggestedOwners:r.rec.suggestedOwners,timeHorizon:r.rec.timeHorizon
+  }));
+  dl(new Blob([JSON.stringify(recs,null,2)],{type:'application/json'}),`finready_recommendations_${SESSION.date||'export'}.json`);
+  toast('Recommendations JSON downloaded');
+}
+function dl(blob,name){const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);}
+
+// ===================== UTILS =====================
+function emptyState(icon,title,sub) {
+  return `<div class="empty-state"><div class="empty-icon">${icon}</div><div class="empty-title">${title}</div><div class="empty-sub">${sub}</div></div>`;
+}
+
+function saveToStorage(){try{localStorage.setItem('finready_session',JSON.stringify(SESSION));}catch(e){}}
+
+function loadFromStorage(){
+  try{
+    const raw=localStorage.getItem('finready_session');
+    if(!raw)return;
+    SESSION={...SESSION,...JSON.parse(raw)};
+    if(SESSION.title){
+      document.getElementById('sessionTitle').value=SESSION.title;
+      document.getElementById('sessionDate').value=SESSION.date||'';
+      document.getElementById('sessionFacilitator').value=SESSION.facilitator||'';
+      document.getElementById('sessionOrg').value=SESSION.org||'';
+      renderSFSelector();updateNav();renderWorkshop();updateProgress();
+    }
+  }catch(e){}
+}
+
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),2600);
+}
+</script>
+</body>
+</html>
